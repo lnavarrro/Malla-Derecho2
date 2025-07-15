@@ -1,57 +1,195 @@
-const materias = [
-  { nombre: "Catedra Caribe", semestre: 1, creditos: 2 },
-  { nombre: "Ciencias políticas", semestre: 1, creditos: 2 },
-  { nombre: "General English I", semestre: 1, creditos: 2 },
-  { nombre: "Instituciones Juridicas", semestre: 1, creditos: 2 },
-  { nombre: "Introduccion al derecho", semestre: 1, creditos: 2 },
-  { nombre: "Procesos Lectores Y Escriturales", semestre: 1, creditos: 2 },
-  { nombre: "Razonamiento Y Representacion Matematica", semestre: 1, creditos: 2 },
-  { nombre: "Sociologia General", semestre: 1, creditos: 2 },
-  { nombre: "Teoria Constitucional Y Del Estado", semestre: 1, creditos: 2 },
-  { nombre: "Derecho Civil General Y Personas", semestre: 2, creditos: 3 },
-  { nombre: "Derecho Constitucional Colombiano I", semestre: 2, creditos: 3, prerequisitos: ["Teoria Constitucional Y Del Estado"] },
-  { nombre: "Derecho Penal General", semestre: 2, creditos: 3 },
-  { nombre: "Expresion Oral Y Argumentacion", semestre: 2, creditos: 2, prerequisitos: ["Procesos Lectores Y Escriturales"] },
-  { nombre: "General English II", semestre: 2, creditos: 2, prerequisitos: ["General English I"] },
-  { nombre: "Hermeneutica, Logica Y Argumentacion Juridica", semestre: 2, creditos: 3 },
-  { nombre: "Teoria Del Derecho", semestre: 2, creditos: 2, prerequisitos: ["Introduccion al derecho"] },
-  // El resto de materias irá aquí. Por brevedad, se completa en la siguiente ejecución.
+const semestres = [
+  {
+    nombre: "Primer semestre",
+    ramos: [
+      { nombre: "Catedra Caribe" },
+      { nombre: "Ciencias políticas" },
+      { nombre: "General English I" },
+      { nombre: "Instituciones Juridicas" },
+      { nombre: "Introduccion al derecho" },
+      { nombre: "Procesos Lectores Y Escriturales" },
+      { nombre: "Razonamiento Y Representacion Matematica" },
+      { nombre: "Sociologia General" },
+      { nombre: "Teoria Constitucional Y Del Estado" }
+    ]
+  },
+  {
+    nombre: "Segundo semestre",
+    ramos: [
+      { nombre: "Derecho Civil General Y Personas" },
+      { nombre: "Derecho Constitucional Colombiano I", requisitos: ["Teoria Constitucional Y Del Estado"] },
+      { nombre: "Derecho Penal General" },
+      { nombre: "Expresion Oral Y Argumentacion", requisitos: ["Procesos Lectores Y Escriturales"] },
+      { nombre: "General English II", requisitos: ["General English I"] },
+      { nombre: "Hermeneutica, Logica Y Argumentacion Juridica" },
+      { nombre: "Teoria Del Derecho", requisitos: ["Introduccion al derecho"] }
+    ]
+  },
+  {
+    nombre: "Tercer semestre",
+    ramos: [
+      { nombre: "Derecho Civil Bienes" },
+      { nombre: "Derecho Comercial General", requisitos: ["Derecho Civil General Y Personas"] },
+      { nombre: "Derecho Constitucional Colombiano II", requisitos: ["Derecho Constitucional Colombiano I"] },
+      { nombre: "Derecho Penal Especial", requisitos: ["Derecho Penal General"] },
+      { nombre: "General English III", requisitos: ["General English II"] },
+      { nombre: "Teoria Economica" },
+      { nombre: "Teoria General Del Proceso" }
+    ]
+  },
+  {
+    nombre: "Cuarto semestre",
+    ramos: [
+      { nombre: "Derecho Administrativo General", requisitos: ["Teoria Constitucional Y Del Estado", "Derecho Constitucional Colombiano I", "Derecho Constitucional Colombiano II"] },
+      { nombre: "Derecho Civil Obligaciones", requisitos: ["Derecho Civil Bienes"] },
+      { nombre: "Derecho Procesal Constitucional", requisitos: ["Derecho Constitucional Colombiano I", "Derecho Constitucional Colombiano II"] },
+      { nombre: "Derecho Procesal Penal", requisitos: ["Teoria General Del Proceso", "Derecho Penal Especial", "Derecho Penal General"] },
+      { nombre: "Derechos Humanos Y Catedra De La Paz" },
+      { nombre: "General English IV", requisitos: ["General English III"] },
+      { nombre: "Procesal Civil Especial I", requisitos: ["Teoria General Del Proceso"] },
+      { nombre: "Sociedades Comerciales", requisitos: ["Derecho Comercial General"] }
+    ]
+  },
+  {
+    nombre: "Quinto semestre",
+    ramos: [
+      { nombre: "Contratos I", requisitos: ["Derecho Civil Obligaciones"] },
+      { nombre: "Derecho Administrativo Colombiano", requisitos: ["Derecho Administrativo General"] },
+      { nombre: "Derecho Internacional Publico" },
+      { nombre: "Derecho Laboral" },
+      { nombre: "Derecho Maritimo" },
+      { nombre: "General English V", requisitos: ["General English IV"] },
+      { nombre: "Mecanismos Alternativos De Resolucion De Conflictos" },
+      { nombre: "Procesal Civil Especial II", requisitos: ["Procesal Civil Especial I"] }
+    ]
+  },
+  {
+    nombre: "Sexto semestre",
+    ramos: [
+      { nombre: "Contratacion Estatal", requisitos: ["Derecho Administrativo General", "Derecho Administrativo Colombiano"] },
+      { nombre: "Contratos II", requisitos: ["Contratos I"] },
+      { nombre: "Derecho Culturales", requisitos: ["Derecho Internacional Publico"] },
+      { nombre: "Derecho Internacional Privado" },
+      { nombre: "Derecho Probatorio", requisitos: ["Procesal Civil Especial II", "Procesal Civil Especial I", "Teoria General Del Proceso"] },
+      { nombre: "Electiva De Profundizacion I" },
+      { nombre: "Fundamentos De La Investigacion Juridica Y Socio Juridica" },
+      { nombre: "Seguridad Social", requisitos: ["Derecho Laboral"] }
+    ]
+  },
+  {
+    nombre: "Septimo semestre",
+    ramos: [
+      { nombre: "Consultorio Juridico Y Centro De Conciliacion I" },
+      { nombre: "Derecho De Familia", requisitos: ["Derecho Civil General Y Personas"] },
+      { nombre: "Electiva De Profundizacion II" },
+      { nombre: "Metodos Y Tecnicas De La Investigacion Juridica Y Socio-Juridica", requisitos: ["Fundamentos De La Investigacion Juridica Y Socio Juridica"] },
+      { nombre: "Procesal Administrativo", requisitos: ["Derecho Administrativo General", "Derecho Administrativo Colombiano"] },
+      { nombre: "Procesal Laboral", requisitos: ["Derecho Laboral", "Seguridad Social"] },
+      { nombre: "Titulos Valores" }
+    ]
+  },
+  {
+    nombre: "Octavo semestre",
+    ramos: [
+      { nombre: "Consultorio Juridico Y Centro De Conciliacion II", requisitos: ["Consultorio Juridico Y Centro De Conciliacion I"] },
+      { nombre: "Derecho Ambiental" },
+      { nombre: "Derecho Digital" },
+      { nombre: "Derecho Tributario", requisitos: ["Derecho Administrativo Colombiano"] },
+      { nombre: "Electiva De Profundizacion III" },
+      { nombre: "Electiva De Profundizacion IV" },
+      { nombre: "Seminario De Investigacion Juridica Y Socio-Juridica", requisitos: ["Metodos Y Tecnicas De La Investigacion Juridica Y Socio-Juridica"] },
+      { nombre: "Sucesiones", requisitos: ["Derecho De Familia"] }
+    ]
+  },
+  {
+    nombre: "Noveno semestre",
+    ramos: [
+      { nombre: "Consultorio Juridico Y Centro De Conciliacion III", requisitos: ["Consultorio Juridico Y Centro De Conciliacion II"] },
+      { nombre: "Curso Libre I" },
+      { nombre: "Diversidad Cultural Y Conflictos Socioambientales", requisitos: ["Derecho Ambiental", "Derecho Culturales", "Derecho Administrativo General", "Derecho Administrativo Colombiano"] },
+      { nombre: "Electiva De Profundizacion V" },
+      { nombre: "Electiva De Profundizacion VI" },
+      { nombre: "Filosofia Del Derecho", requisitos: ["Teoria Del Derecho"] },
+      { nombre: "Responsabilidad Civil", requisitos: ["Derecho Probatorio", "Procesal Civil Especial II", "Procesal Civil Especial I", "Teoria General Del Proceso"] },
+      { nombre: "Responsabilidad Y Etica Profesional" }
+    ]
+  },
+  {
+    nombre: "Décimo semestre",
+    ramos: [
+      { nombre: "Consultorio Juridico Y Centro De Conciliacion IV", requisitos: ["Consultorio Juridico Y Centro De Conciliacion III"] },
+      { nombre: "Curso Libre II" },
+      { nombre: "Curso Libre III" },
+      { nombre: "Electiva De Profundizacion IX" },
+      { nombre: "Electiva De Profundizacion VII" },
+      { nombre: "Electiva De Profundizacion VIII" },
+      { nombre: "Ingles Juridico", requisitos: ["General English I", "General English II", "General English III", "General English IV", "General English V"] },
+      { nombre: "Procedimientos Administrativos Ambientales", requisitos: ["Derecho Ambiental", "Derecho Administrativo Colombiano", "Derecho Administrativo General"] }
+    ]
+  }
 ];
 
-const aprobadas = new Set();
+const estadoRamos = {};
 
 function crearMalla() {
-  const contenedor = document.getElementById("malla");
-  for (let semestre = 1; semestre <= 10; semestre++) {
-    const sem = document.createElement("div");
-    sem.className = "semestre";
-    sem.innerHTML = `<h2>${semestre}° Semestre</h2>`;
-    materias.filter(m => m.semestre === semestre).forEach(m => {
-      const ramo = document.createElement("div");
-      ramo.className = "ramo";
-      ramo.id = m.nombre;
-      ramo.innerHTML = `<strong>${m.nombre}</strong> (${m.creditos} créditos)
-        <button onclick="aprobar('${m.nombre}')">Aprobar</button>`;
-      sem.appendChild(ramo);
+  const malla = document.getElementById("malla");
+
+  semestres.forEach((sem) => {
+    const divSemestre = document.createElement("div");
+    divSemestre.className = "semestre";
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = sem.nombre;
+    divSemestre.appendChild(titulo);
+
+    sem.ramos.forEach((ramo) => {
+      const divRamo = document.createElement("div");
+      divRamo.className = "ramo";
+      divRamo.id = ramo.nombre;
+
+      const nombre = document.createElement("span");
+      nombre.textContent = ramo.nombre;
+
+      const btn = document.createElement("button");
+      btn.textContent = "Aprobar";
+      btn.onclick = () => aprobarRamo(ramo.nombre);
+
+      divRamo.appendChild(nombre);
+      divRamo.appendChild(btn);
+      divSemestre.appendChild(divRamo);
+
+      estadoRamos[ramo.nombre] = {
+        aprobado: false,
+        requisitos: ramo.requisitos || [],
+        boton: btn,
+        div: divRamo
+      };
     });
-    contenedor.appendChild(sem);
-  }
-  actualizarBloqueos();
+
+    malla.appendChild(divSemestre);
+  });
+
+  actualizarEstado();
 }
 
-function aprobar(nombre) {
-  aprobadas.add(nombre);
-  document.getElementById(nombre).classList.add("aprobado");
-  actualizarBloqueos();
+function aprobarRamo(nombre) {
+  estadoRamos[nombre].aprobado = true;
+  estadoRamos[nombre].div.classList.add("aprobado");
+  actualizarEstado();
 }
 
-function actualizarBloqueos() {
-  materias.forEach(m => {
-    const elem = document.getElementById(m.nombre);
-    if (!elem) return;
-    const bloqueado = m.prerequisitos && !m.prerequisitos.every(r => aprobadas.has(r));
-    elem.classList.toggle("bloqueado", bloqueado);
+function actualizarEstado() {
+  Object.entries(estadoRamos).forEach(([nombre, info]) => {
+    if (info.aprobado) {
+      info.boton.disabled = true;
+      return;
+    }
+
+    const habilitado = info.requisitos.every((req) => estadoRamos[req]?.aprobado);
+    info.boton.disabled = !habilitado;
+    info.div.classList.toggle("locked", !habilitado);
   });
 }
 
 window.onload = crearMalla;
+
